@@ -21,10 +21,10 @@ function parseRoast(text) {
   };
 
   return {
-    verdict:      extract("VERDICT"),
-    problems:     extractList("PROBLEMS"),
-    notTerrible:  extractList("NOT TERRIBLE"),
-    survivalTip:  extract("SURVIVAL TIP"),
+    verdict:     extract("VERDICT"),
+    problems:    extractList("PROBLEMS"),
+    notTerrible: extractList("NOT TERRIBLE"),
+    survivalTip: extract("SURVIVAL TIP"),
   };
 }
 
@@ -100,6 +100,8 @@ export default function RoastCard({ text, loading, done, persona, role, industry
     navigator.clipboard.writeText(text).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
+    }).catch(() => {
+      // Silent fail — clipboard blocked by browser
     });
   };
 
@@ -153,7 +155,7 @@ export default function RoastCard({ text, loading, done, persona, role, industry
         )}
 
         {/* ── Streaming raw text ────────────────────────────────────────── */}
-        {(loading && text) && (
+        {loading && text && !done && (
           <motion.div
             key="streaming"
             initial={{ opacity: 0 }}
