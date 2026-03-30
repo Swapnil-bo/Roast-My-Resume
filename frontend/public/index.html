@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- ── Primary Meta ─────────────────────────────────────────────────── -->
+    <title>Roast My Resume — Brutally Honest AI Feedback</title>
+    <meta name="description" content="Upload your resume. Pick a role. Get destroyed — then rebuilt — by a local AI. No cloud. No API keys. Just pain and progress." />
+    <meta name="author" content="Swapnil Hazra" />
+    <meta name="theme-color" content="#ff4500" />
+
+    <!-- ── Open Graph ───────────────────────────────────────────────────── -->
+    <meta property="og:type"        content="website" />
+    <meta property="og:title"       content="Roast My Resume 🔥" />
+    <meta property="og:description" content="Your resume is bad and a local AI will tell you exactly why." />
+    <meta property="og:image"       content="/og-image.png" />
+
+    <!-- ── Twitter Card ─────────────────────────────────────────────────── -->
+    <meta name="twitter:card"        content="summary_large_image" />
+    <meta name="twitter:title"       content="Roast My Resume 🔥" />
+    <meta name="twitter:description" content="Upload your resume. Get roasted by local AI. No mercy." />
+    <meta name="twitter:creator"     content="@SwapnilHazra4" />
+
+    <!-- ── Favicon ──────────────────────────────────────────────────────── -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔥</text></svg>" />
+
+    <!-- ── Fonts preconnect ──────────────────────────────────────────────── -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- ── Prevent flash of unstyled content ────────────────────────────── -->
+    <style>
+      html { background: #0a0805; }
+      body { opacity: 0; transition: opacity 0.2s ease; }
+      body.ready { opacity: 1; }
+    </style>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <!-- ── Anti-FOUC ────────────────────────────────────────────────────── -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        document.body.classList.add("ready");
+      });
+    </script>
+
+    <!-- ── Vite entry ────────────────────────────────────────────────────── -->
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
