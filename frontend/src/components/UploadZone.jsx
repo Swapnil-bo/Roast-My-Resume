@@ -4,10 +4,9 @@ import { motion, AnimatePresence } from "framer-motion";
 const MAX_SIZE_MB = 5;
 
 export default function UploadZone({ onFileAccepted }) {
-  const [dragging, setDragging]   = useState(false);
-  const [error, setError]         = useState("");
-  const [preview, setPreview]     = useState(null);
-  const inputRef                  = useRef(null);
+  const [dragging, setDragging] = useState(false);
+  const [error, setError]       = useState("");
+  const inputRef                = useRef(null);
 
   // ── Validation ──────────────────────────────────────────────────────────
   const validate = useCallback((file) => {
@@ -23,18 +22,21 @@ export default function UploadZone({ onFileAccepted }) {
     const err = validate(file);
     if (err) {
       setError(err);
-      setPreview(null);
       return;
     }
     setError("");
-    setPreview({ name: file.name, size: (file.size / 1024).toFixed(0) });
     onFileAccepted(file);
   }, [validate, onFileAccepted]);
 
   // ── Drag handlers ────────────────────────────────────────────────────────
-  const onDragOver  = (e) => { e.preventDefault(); setDragging(true);  };
-  const onDragLeave = (e) => { e.preventDefault(); setDragging(false); };
-  const onDrop      = (e) => {
+  const onDragOver  = (e) => { e.preventDefault(); setDragging(true); };
+  const onDragLeave = (e) => {
+    e.preventDefault();
+    if (!e.currentTarget.contains(e.relatedTarget)) {
+      setDragging(false);
+    }
+  };
+  const onDrop = (e) => {
     e.preventDefault();
     setDragging(false);
     const file = e.dataTransfer.files?.[0];
