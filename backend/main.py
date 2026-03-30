@@ -43,7 +43,7 @@ def extract_text_from_pdf(file_bytes: bytes) -> str:
 
 
 def validate_file(file: UploadFile, file_bytes: bytes):
-    if not file.filename.endswith(".pdf"):
+    if not (file.filename or "").lower().endswith(".pdf"):
         raise HTTPException(status_code=400, detail="Only PDF files are accepted.")
     size_mb = len(file_bytes) / (1024 * 1024)
     if size_mb > MAX_FILE_SIZE_MB:
@@ -88,6 +88,12 @@ async def roast_resume(
     validate_file(file, file_bytes)
     resume_text = extract_text_from_pdf(file_bytes)
 
+    if len(resume_text.strip()) < 50:
+        raise HTTPException(
+            status_code=422,
+            detail="Could not extract text. Is this a scanned PDF?",
+        )
+
     logger.info(f"Roasting resume | role={role} | industry={industry} | persona={persona} | chars={len(resume_text)}")
 
     return StreamingResponse(
@@ -106,6 +112,12 @@ async def rewrite_resume(
     file_bytes = await file.read()
     validate_file(file, file_bytes)
     resume_text = extract_text_from_pdf(file_bytes)
+
+    if len(resume_text.strip()) < 50:
+        raise HTTPException(
+            status_code=422,
+            detail="Could not extract text. Is this a scanned PDF?",
+        )
 
     logger.info(f"Rewriting resume | role={role} | industry={industry} | chars={len(resume_text)}")
 
