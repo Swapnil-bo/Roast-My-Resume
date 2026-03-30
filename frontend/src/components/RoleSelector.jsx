@@ -83,6 +83,7 @@ export default function RoleSelector({ role, industry, onRoleChange, onIndustryC
               placeholder="e.g. Aerospace, Gaming, Legal..."
               value={industry}
               onChange={(e) => onIndustryChange(e.target.value)}
+              onKeyDown={(e) => { if (e.key === "Enter" && industry.trim()) setCustomIndustry(false); }}
               autoFocus
             />
             <button
