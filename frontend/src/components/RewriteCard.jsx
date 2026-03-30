@@ -14,9 +14,9 @@ const SECTION_PATTERNS = [
 function parseResume(text) {
   if (!text) return null;
 
-  const lines   = text.split("\n");
+  const lines    = text.split("\n");
   const sections = [];
-  let current   = null;
+  let current    = null;
 
   const matchLabel = (line) => {
     const clean = line.trim().toUpperCase().replace(/[:\-–]/g, "").trim();
@@ -31,7 +31,6 @@ function parseResume(text) {
     } else if (current) {
       current.lines.push(line);
     } else {
-      // Pre-header content (name, contact)
       if (!sections.length) {
         if (!current) current = { key: "header", title: "", emoji: "👤", color: "var(--text)", lines: [] };
         current.lines.push(line);
@@ -55,7 +54,9 @@ function computeStats(text) {
   if (!text) return null;
   const words     = text.split(/\s+/).filter(Boolean);
   const lower     = text.toLowerCase();
-  const verbCount = ACTION_VERBS.filter((v) => lower.includes(v)).length;
+  const verbCount = ACTION_VERBS.filter((v) =>
+    new RegExp(`\\b${v}\\b`).test(lower)
+  ).length;
   const hasMetrics = (text.match(/\d+%|\$\d+|\d+x|\d+\+/g) || []).length;
   return { words: words.length, verbs: verbCount, metrics: hasMetrics };
 }
@@ -216,7 +217,7 @@ function StatsBar({ stats }) {
       <span className="badge badge-gold">📝 {stats.words} words</span>
       <span className="badge badge-fire">⚡ {stats.verbs} action verbs</span>
       <span className="badge badge-gold">📊 {stats.metrics} metrics</span>
-      {stats.verbs >= 8  && <span className="badge badge-fire">🔥 Strong verbs</span>}
+      {stats.verbs >= 8   && <span className="badge badge-fire">🔥 Strong verbs</span>}
       {stats.metrics >= 3 && <span className="badge badge-gold">💰 Data-driven</span>}
     </motion.div>
   );
@@ -227,8 +228,8 @@ export default function RewriteCard({ text, loading, done }) {
   const [copied,   setCopied]   = useState(false);
   const [viewMode, setViewMode] = useState("structured"); // "structured" | "raw"
 
-  const sections = useMemo(() => (done ? parseResume(text) : null), [text, done]);
-  const stats    = useMemo(() => (done ? computeStats(text) : null),  [text, done]);
+  const sections    = useMemo(() => (done ? parseResume(text) : null), [text, done]);
+  const stats       = useMemo(() => (done ? computeStats(text) : null),  [text, done]);
   const hasSections = sections && sections.length > 1;
 
   const handleCopy = () => {
@@ -244,7 +245,9 @@ export default function RewriteCard({ text, loading, done }) {
     const a    = document.createElement("a");
     a.href     = url;
     a.download = "rewritten-resume.txt";
+    document.body.appendChild(a);
     a.click();
+    document.body.removeChild(a);
     URL.revokeObjectURL(url);
   };
 
