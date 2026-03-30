@@ -7,10 +7,10 @@ import RewriteCard from "./components/RewriteCard";
 
 // ── Constants ────────────────────────────────────────────────────────────────
 const PERSONAS = [
-  { id: "gordon",    emoji: "👨‍🍳", label: "Gordon Ramsay",    desc: "Screams. Always right."         },
-  { id: "hr",        emoji: "😤", label: "Burnt-Out HR",      desc: "Seen 10k resumes. Done."        },
-  { id: "silicon",   emoji: "🤙", label: "Silicon Valley Bro",desc: "Where are your GitHub commits?" },
-  { id: "professor", emoji: "🎓", label: "Oxford Professor",  desc: "Big words. Small verdict."      },
+  { id: "gordon",    emoji: "👨‍🍳", label: "Gordon Ramsay",     desc: "Screams. Always right."         },
+  { id: "hr",        emoji: "😤", label: "Burnt-Out HR",       desc: "Seen 10k resumes. Done."        },
+  { id: "silicon",   emoji: "🤙", label: "Silicon Valley Bro", desc: "Where are your GitHub commits?" },
+  { id: "professor", emoji: "🎓", label: "Oxford Professor",   desc: "Big words. Small verdict."      },
 ];
 
 const STEPS = ["upload", "configure", "results"];
@@ -29,18 +29,18 @@ const stagger = {
 // ── App ───────────────────────────────────────────────────────────────────────
 export default function App() {
   // ── State ──────────────────────────────────────────────────────────────────
-  const [step, setStep]           = useState("upload");
-  const [file, setFile]           = useState(null);
-  const [role, setRole]           = useState("");
-  const [industry, setIndustry]   = useState("");
-  const [persona, setPersona]     = useState("gordon");
-  const [roastText, setRoastText] = useState("");
+  const [step, setStep]               = useState("upload");
+  const [file, setFile]               = useState(null);
+  const [role, setRole]               = useState("");
+  const [industry, setIndustry]       = useState("");
+  const [persona, setPersona]         = useState("gordon");
+  const [roastText, setRoastText]     = useState("");
   const [rewriteText, setRewriteText] = useState("");
-  const [roasting, setRoasting]   = useState(false);
-  const [rewriting, setRewriting] = useState(false);
-  const [roastDone, setRoastDone] = useState(false);
+  const [roasting, setRoasting]       = useState(false);
+  const [rewriting, setRewriting]     = useState(false);
+  const [roastDone, setRoastDone]     = useState(false);
   const [rewriteDone, setRewriteDone] = useState(false);
-  const [error, setError]         = useState("");
+  const [error, setError]             = useState("");
 
   const resultsRef = useRef(null);
 
@@ -112,7 +112,6 @@ export default function App() {
       setError(e.message || "Something went wrong.");
     } finally {
       setLoading(false);
-      setDone(true);
     }
   }, [file, role, industry, persona]);
 
@@ -312,7 +311,7 @@ export default function App() {
               </motion.div>
 
               {/* Rewrite trigger */}
-              {roastDone && !rewriteText && !rewriting && (
+              {roastDone && !error && !rewriteText && !rewriting && (
                 <motion.div
                   variants={fadeUp}
                   initial="hidden"
@@ -371,7 +370,7 @@ export default function App() {
           <span className="text-muted" style={{ fontSize: "0.8rem" }}>
             Powered by Mistral 7B · Runs 100% locally · No data leaves your machine
           </span>
-          
+          <a
             href="https://github.com/Swapnil-bo/Roast-My-Resume"
             target="_blank"
             rel="noopener noreferrer"
