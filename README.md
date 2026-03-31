@@ -34,7 +34,7 @@ Built as part of the **#100DaysOfVibeCoding** challenge.
 ## 📸 Screenshots
 
 ### Landing Page
-![Landing Page](screenshots/landing.png)
+![Landing Page](screenshots/hero.png)
 
 ### Role & Persona Selection
 ![Configure Step](screenshots/configure.png)
